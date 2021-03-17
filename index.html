@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+      crossorigin="anonymous"
+    />
+    <title>Text editor</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div class="buttons">
+      <div class="buttons__group">
+        <button class="button" onclick='editText("undo")'>
+          <i class="fas fa-undo"></i><span class="tooltip">undo</span>
+        </button>
+        <button class="button" onclick='editText("redo")'>
+          <i class="fas fa-redo"></i><span class="tooltip">redo</span>
+        </button>
+        <button class="button" onclick='editText("removeFormat")'>
+          &times;<span class="tooltip">clear</span>
+        </button>
+      </div>
+      <div class="buttons__group">
+        <button class="button" onclick='editText("bold")'>
+          B<span class="tooltip">bold</span>
+        </button>
+
+        <button
+          class="button"
+          onmousedown="event.preventDefault();"
+          onclick='editText("italic")'
+        >
+          I<span class="tooltip">italic</span>
+        </button>
+        <button class="button" onclick='editText("underline")'>
+          U<span class="tooltip">underline</span>
+        </button>
+      </div>
+      <div class="buttons__group">
+        <div class="button show-options" onmousedown="event.preventDefault()">
+          <span class="color-picker__active-color backColor"></span>
+          <span class="tooltip">background&nbsp;color</span>
+          <div class="color-picker__options options">
+            <span
+              class="color-picker__option color-picker--red"
+              onclick="editText('backColor', 'red');changeActiveBgColor(this,'red')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--orange"
+              onclick="editText('backColor', 'orange');changeActiveBgColor(this,'orange')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--yellow"
+              onclick="editText('backColor', 'yellow');changeActiveBgColor(this,'yellow')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--green"
+              onclick="editText('backColor', 'green');changeActiveBgColor(this,'green')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--teal"
+              onclick="editText('backColor', 'teal');changeActiveBgColor(this,'teal')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--blue"
+              onclick="editText('backColor', 'blue');changeActiveBgColor(this,'blue')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--navy"
+              onclick="editText('backColor', 'navy');changeActiveBgColor(this,'navy')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--black"
+              onclick="editText('backColor', 'black');changeActiveBgColor(this,'black')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--white"
+              onclick="editText('backColor', 'white');changeActiveBgColor(this,'white')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--transparent"
+              onclick="editText('backColor', 'transparent');changeActiveBgColor(this,'transparent')"
+              >&times;</span
+            >
+            <input
+              class="color-picker__option color-picker--free no-close"
+              type="color"
+              oninput="editText('backColor',event.target.value);changeActiveBgColor(this,event.target.value)"
+              value="#fdffff"
+            />
+          </div>
+        </div>
+        <div class="button show-options" onmousedown="event.preventDefault()">
+          <span class="color-picker__active-color foreColor">A</span>
+          <span class="tooltip">font&nbsp;color</span>
+          <div class="color-picker__options options">
+            <span
+              class="color-picker__option color-picker--black"
+              onclick="editText('foreColor', 'black');changeActiveColor(this,'black')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--red"
+              onclick="editText('foreColor', 'red');changeActiveColor(this,'red')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--orange"
+              onclick="editText('foreColor', 'orange');changeActiveColor(this,'orange')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--yellow"
+              onclick="editText('foreColor', 'yellow');changeActiveColor(this,'yellow')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--green"
+              onclick="editText('foreColor', 'green');changeActiveColor(this,'green')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--teal"
+              onclick="editText('foreColor', 'teal');changeActiveColor(this,'teal')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--blue"
+              onclick="editText('foreColor', 'blue');changeActiveColor(this,'blue')"
+            ></span>
+            <span
+              class="color-picker__option color-picker--navy"
+              onclick="editText('foreColor', 'navy');changeActiveColor(this,'navy')"
+            ></span>
+
+            <span
+              class="color-picker__option color-picker--white"
+              onclick="editText('foreColor', 'white');changeActiveColor(this,'white')"
+            ></span>
+            <input
+              class="color-picker__option color-picker--free no-close"
+              type="color"
+              oninput="editText('foreColor',event.target.value);changeActiveColor(this,event.target.value)"
+              value="#fdffff"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="buttons__group">
+        <div class="button show-options" onmousedown="event.preventDefault()">
+          <i class="fas fa-font"></i>
+          <span class="tooltip">font&nbsp;face</span>
+          <div class="font-picker__options options">
+            <span
+              class="font-picker__option"
+              style="font-family: Arial"
+              onclick="editText('fontName', 'Arial')"
+              >Arial</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: Comic Sans MS, Comic Sans, cursive"
+              onclick="editText('fontName', 'Comic Sans MS')"
+              >Comic Sans</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: Courier New"
+              onclick="editText('fontName', 'Courier New')"
+              >Courier New</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: Helvetica"
+              onclick="editText('fontName', 'Helvetica')"
+              >Helvetica</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: Lato"
+              onclick="editText('fontName', 'Lato')"
+              >Lato</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: sans-serif"
+              onclick="editText('fontName', 'sans-serif')"
+              >sans-serif</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: Tahoma"
+              onclick="editText('fontName', 'Tahoma')"
+              >Tahoma</span
+            >
+            <span
+              class="font-picker__option"
+              style="font-family: Times New Roman"
+              onclick="editText('fontName', 'Times New Roman')"
+              >Times New Roman</span
+            >
+          </div>
+        </div>
+        <div class="button show-options" onmousedown="event.preventDefault()">
+          <span style="font-size: x-small">T</span>T
+          <span class="tooltip">font&nbsp;size</span>
+          <div class="font-picker__options options">
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '1')"
+              >x-small</span
+            >
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '2')"
+              >small</span
+            >
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '3')"
+              >normal</span
+            >
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '4')"
+              >large</span
+            >
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '5')"
+              >x-large</span
+            >
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '6')"
+              >xx-large</span
+            >
+            <span
+              class="font-picker__option"
+              onclick="editText('fontsize', '7')"
+              >xxx-large</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="buttons__group">
+        <div class="buttons__group">
+          <button class="button" onclick="editText('justifyLeft')">
+            <i class="fas fa-align-left"></i
+            ><span class="tooltip">align&nbsp;left</span>
+          </button>
+          <button class="button" onclick="editText('justifyCenter')">
+            <i class="fas fa-align-center"></i
+            ><span class="tooltip">align&nbsp;center</span>
+          </button>
+          <button class="button" onclick="editText('justifyRight')">
+            <i class="fas fa-align-right"></i
+            ><span class="tooltip">align&nbsp;right</span>
+          </button>
+          <button class="button" onclick="editText('justifyFull')">
+            <i class="fas fa-align-justify"></i
+            ><span class="tooltip">justify</span>
+          </button>
+          <button class="button" onclick="editText('indent')">
+            <i class="fas fa-indent"></i><span class="tooltip">indent</span>
+          </button>
+          <button class="button" onclick="editText('outdent')">
+            <i class="fas fa-outdent"></i><span class="tooltip">outdent</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div contenteditable="true" id="text-field" class="text-field">
+      Text goes here. You can edit it as you wish.
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
